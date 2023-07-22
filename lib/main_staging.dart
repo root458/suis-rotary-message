@@ -1,6 +1,6 @@
-import 'package:suis_message/app/app.dart';
 import 'package:suis_message/bootstrap.dart';
+import 'package:suis_message/suismessage/suismessage.dart';
 
 void main() {
-  bootstrap(() => const App());
+  bootstrap(() => const SuisMessage());
 }

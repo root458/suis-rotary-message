@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:suis_message/counter/counter.dart';
 import 'package:suis_message/l10n/l10n.dart';
 
-class App extends StatelessWidget {
-  const App({super.key});
+class SuisMessage extends StatelessWidget {
+  const SuisMessage({super.key});
 
   @override
   Widget build(BuildContext context) {
