@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   bloc: ^8.1.1
+  dynamic_color: ^1.6.6
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.2
