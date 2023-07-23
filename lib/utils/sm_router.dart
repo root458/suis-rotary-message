@@ -3,15 +3,15 @@ part of '_index.dart';
 class SuisMessageRouter {
   static GoRouter get router => _router;
 
-  static const String homeRoute = '/';
+  static const String messagesView = '/';
 
   static final _router = GoRouter(
-    initialLocation: homeRoute,
+    initialLocation: messagesView,
     routes: [
       GoRoute(
-        path: homeRoute,
-        name: homeRoute,
-        builder: (context, state) => const CounterPage(),
+        path: messagesView,
+        name: messagesView,
+        builder: (context, state) => const MessagesView(),
       ),
     ],
   );
