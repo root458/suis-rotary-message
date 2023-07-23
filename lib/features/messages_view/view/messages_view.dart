@@ -11,6 +11,12 @@ class MessagesView extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           MessageViewAppBar(width: width),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => const MessageViewChatItem(),
+              childCount: 10,
+            ),
+          ),
         ],
       ),
     );
