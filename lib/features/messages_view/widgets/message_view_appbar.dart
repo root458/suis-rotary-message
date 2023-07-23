@@ -11,6 +11,7 @@ class MessageViewAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      floating: true,
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(15),
         child: Padding(
