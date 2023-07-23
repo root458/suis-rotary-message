@@ -1,0 +1,99 @@
+# name: Play Store Release (Production)
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: subosito/flutter-action@v2
+#         with:
+#           flutter-version: "3"
+      
+#       - name: 🐦 Setup Shorebird
+#         uses: shorebirdtech/setup-shorebird@v0
+
+#       - name: Flutter version
+#         run: flutter --version
+
+#       - name: Install Dependencies
+#         run: flutter packages get
+
+#       - name: Format
+#         run: dart format --set-exit-if-changed lib test
+
+#       - name: Code Generation
+#         run: flutter packages run build_runner build --delete-conflicting-outputs
+
+#       - name: Analyze
+#         run: flutter analyze lib
+
+#       - name: Download Android keystore
+#         id: android_keystore
+#         uses: timheuer/base64-to-file@v1.2
+#         with:
+#           fileName: key.jks
+#           encodedString: ${{ secrets.RELEASE_KEYSTORE }}
+
+#       - name: Create key.properties
+#         run: |
+#           echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties
+#           echo "storePassword=${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}" >> android/key.properties
+#           echo "keyPassword=${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" >> android/key.properties
+#           echo "keyAlias=${{ secrets.RELEASE_KEYSTORE_ALIAS }}" >> android/key.properties
+
+#       - name: 🚀 Shorebird Release and Build AAB
+#         run: shorebird release android --target lib/main_production.dart --flavor production --verbose --force
+#         env:
+#           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+#       # Upload generated apk to the artifacts.
+#       - uses: actions/upload-artifact@v3
+#         with:
+#           name: production-app-bundle
+#           path: build/app/outputs/bundle/productionRelease/app-production-release.aab
+
+#       - name: Run tests
+#         run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
+
+#       - name: Check Code Coverage
+#         uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+
+#       - name: Setup Ruby
+#         uses: ruby/setup-ruby@v1
+#         with:
+#           ruby-version: "3.0"
+#           bundler-cache: true
+
+#       - name: Download bundle dependencies
+#         run: |
+#           gem install bundler:2.0.2
+#           bundle install
+
+#       - name: Release to Google Play (Production)
+#         env:
+#           SUPPLY_PACKAGE_NAME: ${{ secrets.ANDROID_PACKAGE_NAME }}
+#           SUPPLY_JSON_KEY_DATA: ${{ secrets.PLAY_STORE_CREDENTIALS }}
+#         run: |
+#           bundle exec fastlane supply \
+#           --aab build/app/outputs/bundle/productionRelease/app-production-release.aab \
+#           --track production
+
+#       - name: 🚀 Shorebird Releases
+#         run: shorebird releases list --flavor production
+#         env:
+#           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+          
+#       - name: Report Status
+#         if: always()
+#         uses: ravsamhq/notify-slack-action@v2
+#         with:
+#           status: ${{ job.status }}
+#           notification_title: "{repo}"
+#         env:
+#           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
