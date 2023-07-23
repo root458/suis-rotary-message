@@ -3,7 +3,7 @@
 if "%1"=="fmt" goto fmt
 if "%1"=="get" goto get
 if "%1"=="install" goto install
-if "%1"=="installdev" goto installdev
+if "%1"=="install-dev" goto install-dev
 if "%1"=="gen" goto gen
 if "%1"=="dev" goto dev
 if "%1"=="dev-web" goto dev-web
@@ -14,7 +14,7 @@ if "%1"=="prod-web" goto prod-web
 if "%1"=="clean" goto clean
 if "%1"=="localize" goto localize
 if "%1"=="fix" goto fix
-if "%1"=="commitempty" goto commitempty
+if "%1"=="commit-empty" goto commit-empty
 if "%1"=="shorebird-patch" goto shorebird-patch
 
 goto :eof
@@ -31,7 +31,7 @@ goto :eof
 flutter pub add "%2"
 goto :eof
 
-:installdev
+:install-dev
 flutter pub add -d "%2"
 goto :eof
 
@@ -75,7 +75,7 @@ goto :eof
 dart fix --apply
 goto :eof
 
-:commitempty
+:commit-empty
 git commit --allow-empty -m "Trigger build"
 goto :eof
 
